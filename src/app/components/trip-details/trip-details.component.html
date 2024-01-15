@@ -1,0 +1,68 @@
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+
+            <div class="mt-4">
+                <a [routerLink]="['/trips']" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+            </div>
+            <div class="card m-5">
+
+                <img [src]="trip.imageLink" class="card-img-top img-fluid " alt="{{ trip.name }}"
+                    style="object-fit: cover; max-height: 500px;">
+
+                <div class="card-body">
+
+                    <h2 class="text-center mb-4">{{ trip.name | uppercase }} - {{ trip.country | uppercase }}</h2>
+
+                    <div class="mt-4">
+                        <h6 class="">Oceń wycieczkę: </h6>
+                        <div class="d-flex align-items-center">
+                            <div class="me-2">
+                                <span class="" style="color: gold"
+                                    [ngClass]="{'bi-star-fill': trip.rate >= 1, 'bi-star-half': trip.rate < 1, 'bi-star': trip.rate < 0.5}"
+                                    (click)="rateTrip(1)"></span>
+                                <span class="" style="color: gold"
+                                    [ngClass]="{'bi-star-fill': trip.rate >= 2, 'bi-star-half': trip.rate < 2, 'bi-star': trip.rate < 1.5}"
+                                    (click)="rateTrip(2)"></span>
+                                <span class="" style="color: gold"
+                                    [ngClass]="{'bi-star-fill': trip.rate >= 3, 'bi-star-half': trip.rate < 3, 'bi-star': trip.rate < 2.5}"
+                                    (click)="rateTrip(3)"></span>
+                                <span class="" style="color: gold"
+                                    [ngClass]="{'bi-star-fill': trip.rate >= 4, 'bi-star-half': trip.rate < 4, 'bi-star': trip.rate < 3.5}"
+                                    (click)="rateTrip(4)"></span>
+                                <span class="" style="color: gold"
+                                    [ngClass]="{'bi-star-fill': trip.rate >= 5, 'bi-star-half': trip.rate < 5, 'bi-star': trip.rate < 4.5}"
+                                    (click)="rateTrip(5)"></span>
+
+                                <span class="mx-2">
+                                    {{ trip.rate.toFixed(1) }} / 5
+                                </span>
+                            </div>
+                            <div class="d-flex align-items-center mx-2">
+                                <i class="bi bi-person-fill me-2" style="color: black"></i>
+                                <span>{{ trip.numberOfRates }}</span>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <h4>Opis:</h4>
+                        <p>{{ trip.description }}</p>
+                    </div>
+
+                    <div class="mt-4">
+                        <h4>Cena:</h4>
+                        <p>{{ trip.price | currencyConventer:selectedCurrency }}</p>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

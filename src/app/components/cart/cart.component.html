@@ -1,0 +1,92 @@
+<div class="container mt-5">
+    <h2 class="text-center m-5">Koszyk</h2>
+
+    <ng-container *ngFor="let trip of trips">
+        <div class="card mb-3" *ngIf="trip.selectedSpots > 0">
+            <div class="card-body">
+
+                <!-- duże ekrany -->
+                <div class="d-none d-lg-flex align-items-center justify-content-between">
+                    <div class="d-flex flex-row align-items-center">
+                        <div>
+                            <img [src]="trip.imageLink" class="card-img-top rounded-circle mt-3 me-3" alt="{{ trip.name}}"
+                                style="height: 150px; width: 150px;">
+                        </div>
+
+                        <div class="ms-2 me-5">
+                            <h4 class="card-title mb-2">{{ trip.name | uppercase }}</h4>
+                            <p class="card-text"><strong>{{ trip.country | uppercase }}</strong></p>
+                            <p class="card-text"><strong>Cena za jedno miejsce:</strong> {{ trip.price | currencyConventer:selectedCurrency }}</p>
+                            <p class="card-text"><strong>Wartość:</strong> {{ trip.price * trip.selectedSpots | currencyConventer:selectedCurrency }}</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <button (click)="cancelReservation(trip)" class="btn btn-primary" [ngStyle]="{'visibility': trip.selectedSpots > 0 ? 'visible' : 'hidden'}">
+                            -
+                        </button>
+                        <span class="rounded-3 px-3 py-1 ms-2 me-2 bg-dark-subtle">
+                            {{ trip.selectedSpots }}
+                        </span>
+                        <button (click)="reserveTrip(trip)" class="btn btn-primary" [ngStyle]="{'visibility': trip.availableSpots > 0 ? 'visible' : 'hidden'}">
+                            +
+                        </button>
+                    </div>
+
+                    <div class="ms-5 me-5">
+                        <input type="checkbox" [(ngModel)]="trip.isChecked" (change)="changeCheckbox()" class="form-check-input" style="transform: scale(1.5);">
+                    </div>
+                </div>
+
+                <!-- ekrany mobilne -->
+                <div class="d-lg-none text-center">
+                    <div>
+                        <img [src]="trip.imageLink" class="card-img-top rounded-circle mt-3 mb-3" alt="{{ trip.name}}"
+                            style="height: 150px; width: 150px;">
+                    </div>
+
+                    <div class="mb-3">
+                        <h4 class="card-title mb-2">{{ trip.name | uppercase }}</h4>
+                        <p class="card-text"><strong>{{ trip.country | uppercase }}</strong></p>
+                        <p class="card-text"><strong>Cena za jedno miejsce:</strong> {{ trip.price | currencyConventer:selectedCurrency }}</p>
+                        <p class="card-text"><strong>Wartość:</strong> {{ trip.price * trip.selectedSpots | currencyConventer:selectedCurrency }}</p>
+                    </div>
+
+                    <div class="d-flex justify-content-center mb-3">
+                        <button (click)="cancelReservation(trip)" class="btn btn-primary" [ngStyle]="{'visibility': trip.selectedSpots > 0 ? 'visible' : 'hidden'}">
+                            -
+                        </button>
+                        <span class="rounded-3 px-3 py-1 ms-2 me-2 bg-dark-subtle">
+                            {{ trip.selectedSpots }}
+                        </span>
+                        <button (click)="reserveTrip(trip)" class="btn btn-primary" [ngStyle]="{'visibility': trip.availableSpots > 0 ? 'visible' : 'hidden'}">
+                            +
+                        </button>
+                    </div>
+
+                    <div>
+                        <input type="checkbox" [(ngModel)]="trip.isChecked" (change)="changeCheckbox()" class="form-check-input" style="transform: scale(1.5);">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <div class="my-5 text-center" *ngIf="isCartEmpty">
+        <ng-container *ngIf="!isCartEmpty(); else emptyCartMessage">
+            <ng-container *ngIf="isAnyTripSelected(); else notSelectedMessage">
+                <h4>Suma: {{ calculateTotalCost() | currencyConventer:selectedCurrency }}</h4>
+                <button (click)="purchase()" class="btn btn-success" [disabled]="trips.length === 0">Kup wycieczki</button>
+            </ng-container>
+        </ng-container>
+        <ng-template #notSelectedMessage>
+            <p>Brak zaznaczonych wycieczek</p>
+        </ng-template>
+        <ng-template #emptyCartMessage>
+            <p>Koszyk jest pusty</p>
+        </ng-template>
+    </div>
+</div>
+
+
+

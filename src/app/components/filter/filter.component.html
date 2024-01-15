@@ -1,0 +1,80 @@
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label for="minPrice" class="form-label">Cena minimalna:</label>
+                <input name="minPrice" type="range" class="form-range" [min]="minPrice" [max]="maxPrice" step="1"
+                    [value]="markedMinPrice" (input)="changedMinPrice($event)">
+                <div class="d-flex justify-content-between">    
+                    <p>{{minPrice | currencyConventer:selectedCurrency}}</p>
+                    <span class="rounded-3 px-3 py-1 bg-dark-subtle">
+                        {{markedMinPrice | currencyConventer:selectedCurrency}}
+                    </span>
+                    <p>{{maxPrice | currencyConventer:selectedCurrency}}</p>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="maxPrice" class="form-label">Cena maksymalna</label>
+                <input name="maxPrice" type="range" class="form-range" [min]="markedMinPrice" [max]="maxPrice" step="1"
+                    [value]="markedMaxPrice" (input)="changedMaxPrice($event)">
+                <div class="d-flex justify-content-between">
+                    <p>{{markedMinPrice | currencyConventer:selectedCurrency}}</p>
+                    <span class="rounded-3 px-3 py-1 bg-dark-subtle">
+                        {{markedMaxPrice | currencyConventer:selectedCurrency}}
+                    </span>
+                    <p>{{maxPrice | currencyConventer:selectedCurrency}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label class="form-label">Kraj:</label>
+                <ul class="list-unstyled">
+                    <li *ngFor="let destination of countries">
+                        <div class="form-check">
+                            <input name="{{destination}}" type="checkbox" class="form-check-input"
+                                (change)="changedCountries($event)">
+                            <label class="form-check-label">{{destination}}</label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label class="form-label">Oceny:</label>
+                <ul class="list-unstyled">
+                    <li *ngFor="let rate of rates;">
+                        <div class="form-check">
+                            <input type="checkbox" name="{{rate}}" class="form-check-input"
+                                (change)="changedRate($event)">
+                            <label class="form-check-label">
+                                <span *ngFor="let _ of arrayFromNumber(rate)">
+                                    <i class="bi bi-star-fill" style="color: gold"></i>
+                                </span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="mb-3">
+                <form>
+                    <label for="beginDate" class="form-label">Od:</label>
+                    <input name="beginDate" type="date" class="form-control" [min]="todayDate | date:'yyyy-MM-dd'"
+                        [max]="markedEndDate | date:'yyyy-MM-dd'" (change)="changedBeginDate($event)">
+                </form>
+
+                <form>
+                    <label for="endDate" class="form-label">Do:</label>
+                    <input name="endDate" type="date" class="form-control" [min]="markedBeginDate | date:'yyyy-MM-dd'"
+                        (change)="changedEndDate($event)">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

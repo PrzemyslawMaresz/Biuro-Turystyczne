@@ -1,0 +1,106 @@
+<div class="container mt-3 position-relative">
+    <h2 class="text-center ">Dostępne wycieczki</h2>
+
+    <div class="accordion mt-3" id="filterAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="filterHeader">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#filterCollapse" aria-expanded="true" aria-controls="filterCollapse">
+                    Filtruj wycieczki
+                </button>
+            </h2>
+            <div id="filterCollapse" class="accordion-collapse collapse" aria-labelledby="filterHeader"
+                data-bs-parent="#filterAccordion">
+                <div class="accordion-body">
+
+                    <app-filter [trips]="trips" [minPrice]="lowestPrice" [maxPrice]="highestPrice"
+                        (newRate)="recievedRate($event)" (newCountries)="recievedCountries($event)"
+                        (newMaxPrice)="recievedMaxPrice($event)" (newMinPrice)="recievedMinPrice($event)"
+                        (newBeginDate)="recievedBeginDate($event)" (newEndDate)="recievedEndDate($event)"></app-filter>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 pt-5">
+        <div *ngFor="let trip of filteredTripsList()" class="col mb-4">
+            <div class="card position-relative" [ngClass]="{
+                'low-spots': trip.availableSpots <= 3,
+                'cheapest': trip.price === lowestPrice,
+                'expensive': trip.price === highestPrice,
+                }">
+
+                <div class="d-flex justify-content-start align-items-center mt-3">
+                    <div class="d-flex align-items-center mx-2">
+                        <span class="" style="color: gold"
+                            [ngClass]="{'bi-star-fill': trip.rate >= 1, 'bi-star-half': trip.rate < 1, 'bi-star': trip.rate < 0.5}"></span>
+                        <span class="" style="color: gold"
+                            [ngClass]="{'bi-star-fill': trip.rate >= 2, 'bi-star-half': trip.rate < 2, 'bi-star': trip.rate < 1.5}"></span>
+                        <span class="" style="color: gold"
+                            [ngClass]="{'bi-star-fill': trip.rate >= 3, 'bi-star-half': trip.rate < 3, 'bi-star': trip.rate < 2.5}"></span>
+                        <span class="" style="color: gold"
+                            [ngClass]="{'bi-star-fill': trip.rate >= 4, 'bi-star-half': trip.rate < 4, 'bi-star': trip.rate < 3.5}"></span>
+                        <span class="" style="color: gold"
+                            [ngClass]="{'bi-star-fill': trip.rate >= 5, 'bi-star-half': trip.rate < 5, 'bi-star': trip.rate < 4.5}"></span>
+
+                        <span class="ms-2">
+                            {{trip.rate.toFixed(1) }} / 5
+                        </span>
+                    </div>
+                    <div class="d-flex align-items-center mx-2">
+                        <i class="bi bi-person-fill me-2" style="color: black"></i>
+                        <span>{{ trip.numberOfRates }}</span>
+                    </div>
+                </div>
+
+                <button (click)="deleteTrip(trip)" class="btn btn-danger position-absolute top-0 end-0 m-2">
+                    <i class="bi bi-trash"></i>
+                </button>
+
+                <img [src]="trip.imageLink" class="card-img-top rounded-circle mt-3" alt="{{ trip.name}}"
+                    style="height: 150px; width: 150px; margin: 0 auto; cursor: pointer; "
+                    [routerLink]="['/trip-details', trip.id]">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">{{ trip.name | uppercase}}</h4>
+                    <p class="card-text"><strong>{{ trip.country | uppercase }}</strong></p>
+                    <p class="card-text">{{ trip.description }}</p>
+                    <p class="card-text"><strong>Od:</strong> {{ trip.startDate}}</p>
+                    <p class="card-text"><strong>Do:</strong> {{ trip.endDate}}</p>
+                    <p class="card-text"><strong>Cena:</strong> {{ trip.price | currencyConventer:selectedCurrency}}
+                    </p>
+                    <p class="card-text">
+                        <strong>Wolne miejsca: </strong>
+                        <span class="rounded-3 bg-dark-subtle  px-3 py-1 ms-2 me-2">
+                            {{trip.availableSpots}}/{{trip.maxSpots}}</span>
+                    </p>
+
+
+                    <div class="d-flex justify-content-center align-items-center mt-5">
+                        <span *ngIf="trip.availableSpots > 0; else brakMiejsc">
+                            <strong>Wybierz ilość biletów:</strong>
+                        </span>
+                        <ng-template #brakMiejsc>
+                            <strong class="text-danger">Brak wolnych miejsc</strong>
+                        </ng-template>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center mt-3">
+                        <button (click)="cancelReservation(trip)" class="btn btn-primary ml-2"
+                            [ngStyle]="{'visibility': trip.selectedSpots > 0 ? 'visible' : 'hidden'}">
+                            -
+                        </button>
+                        <span class="rounded-3 px-3 py-1 ms-2 me-2 bg-dark-subtle">
+                            {{ trip.selectedSpots }}
+                        </span>
+                        <button (click)="reserveTrip(trip)" class="btn btn-primary ml-2"
+                            [ngStyle]="{'visibility': trip.availableSpots > 0 ? 'visible' : 'hidden'}">
+                            +
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

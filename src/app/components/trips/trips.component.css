@@ -1,0 +1,11 @@
+.low-spots {
+    background-color: lightyellow;
+}
+
+.cheapest {
+    border: 2px solid red;
+}
+
+.expensive {
+    border: 2px solid green;
+}

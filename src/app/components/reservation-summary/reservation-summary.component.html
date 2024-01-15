@@ -1,0 +1,10 @@
+<div class="card px-3 py-1" [ngStyle]="{'background-color': totalSelectedTrips < 10 ? 'lightcoral' : 'lightgreen'}">
+    <div class="d-flex align-items-center">
+        <button class="btn btn-primary me-3" routerLink="/cart"><i class="bi bi-cart"></i></button>
+        <div class="ml-2">
+            <p class="mb-0">Ilość wycieczek: {{ totalSelectedTrips }}</p>
+            <p class="mb-0">Suma zamówienia: {{ totalPrice | currencyConventer:selecedCurrency}}</p>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,125 @@
+[
+  {
+    "name": "Zwiedzanie Londynu",
+    "country": "Anglia",
+    "startDate": "2024-01-15",
+    "endDate": "2024-01-20",
+    "price": 1000,
+    "maxSpots": 20,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod laoreet mi, sed sollicitudin justo dignissim at. Fusce aliquam velit et turpis fringilla, ut convallis justo fermentum.",
+    "imageLink": "assets/img/anglia.jpg",
+    "reservedSpots": 0,
+    "rate": 0
+  },
+  {
+    "name": "Poznaj Australię",
+    "country": "Australia",
+    "startDate": "2024-02-10",
+    "endDate": "2024-02-15",
+    "price": 1200,
+    "maxSpots": 15,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod laoreet mi, sed sollicitudin justo dignissim at. Fusce aliquam velit et turpis fringilla, ut convallis justo fermentum.",
+    "imageLink": "assets/img/australia.jpg",
+    "reservedSpots": 0,
+    "rate": 0
+  },
+  {
+    "name": "Szlakiem faraonów",
+    "country": "Egipt",
+    "startDate": "2024-03-05",
+    "endDate": "2024-03-10",
+    "price": 1500,
+    "maxSpots": 18,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod laoreet mi, sed sollicitudin justo dignissim at. Fusce aliquam velit et turpis fringilla, ut convallis justo fermentum.",
+    "imageLink": "assets/img/egipt.jpg",
+    "reservedSpots": 0,
+    "rate": 0
+  },
+  {
+    "name": "Zwiedzanie Paryża",
+    "country": "Francja",
+    "startDate": "2024-04-20",
+    "endDate": "2024-04-25",
+    "price": 1100,
+    "maxSpots": 25,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod laoreet mi, sed sollicitudin justo dignissim at. Fusce aliquam velit et turpis fringilla, ut convallis justo fermentum.",
+    "imageLink": "assets/img/francja.jpg",
+    "reservedSpots": 0,
+    "rate": 0
+  },
+  {
+    "name": "Słoneczna Hiszpania",
+    "country": "Hiszpania",
+    "startDate": "2024-05-15",
+    "endDate": "2024-05-20",
+    "price": 1800,
+    "maxSpots": 22,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod laoreet mi, sed sollicitudin justo dignissim at. Fusce aliquam velit et turpis fringilla, ut convallis justo fermentum.",
+    "imageLink": "assets/img/hiszpania.jpg",
+    "reservedSpots": 0,
+    "rate": 0
+  },
+  {
+    "name": "Na tropie niedźwiedzia",
+    "country": "Kanada",
+    "startDate": "2024-06-10",
+    "endDate": "2024-06-15",
+    "price": 1300,
+    "maxSpots": 17,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod laoreet mi, sed sollicitudin justo dignissim at. Fusce aliquam velit et turpis fringilla, ut convallis justo fermentum.",
+    "imageLink": "assets/img/kanada.jpg",
+    "reservedSpots": 0,
+    "rate": 0
+  },
+  {
+    "name": "Rejs po fiordach",
+    "country": "Norwegia",
+    "startDate": "2024-07-05",
+    "endDate": "2024-07-10",
+    "price": 1600,
+    "maxSpots": 20,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod laoreet mi, sed sollicitudin justo dignissim at. Fusce aliquam velit et turpis fringilla, ut convallis justo fermentum.",
+    "imageLink": "assets/img/norwegia.jpg",
+    "reservedSpots": 0,
+    "rate": 0
+  },
+  {
+    "name": "Rajskie plaże",
+    "country": "Tajlandia",
+    "startDate": "2024-08-20",
+    "endDate": "2024-08-25",
+    "price": 1400,
+    "maxSpots": 15,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod laoreet mi, sed sollicitudin justo dignissim at. Fusce aliquam velit et turpis fringilla, ut convallis justo fermentum.",
+    "imageLink": "assets/img/tajlandia.jpg",
+    "reservedSpots": 0,
+    "rate": 0
+  },
+  {
+    "name": "Zwiedzanie Stambułu",
+    "country": "Turcja",
+    "startDate": "2024-09-15",
+    "endDate": "2024-09-20",
+    "price": 1200,
+    "maxSpots": 18,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod laoreet mi, sed sollicitudin justo dignissim at. Fusce aliquam velit et turpis fringilla, ut convallis justo fermentum.",
+    "imageLink": "assets/img/turcja.jpg",
+    "reservedSpots": 0,
+    "rate": 0
+  },
+  {
+    "name": "Włoskie smaki",
+    "country": "Włochy",
+    "startDate": "2024-10-10",
+    "endDate": "2024-10-15",
+    "price": 1700,
+    "maxSpots": 22,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod laoreet mi, sed sollicitudin justo dignissim at. Fusce aliquam velit et turpis fringilla, ut convallis justo fermentum.",
+    "imageLink": "assets/img/włochy.jpg",
+    "reservedSpots": 0,
+    "rate": 0
+  }
+]
+   
+
+
