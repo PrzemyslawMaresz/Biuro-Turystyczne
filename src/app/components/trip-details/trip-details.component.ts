@@ -3,6 +3,11 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TripsService } from '../../services/trips.service';
 import { CurrencyService } from '../../services/currency.service';
+import { Review } from '../../models/reviews';
+import { ReviewsService } from '../../services/reviews.service';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { ReservationService } from '../../services/reservation.service';
+import { Reservation } from '../../models/reservation';
 
 @Component({
   selector: 'app-trip-details',
@@ -12,16 +17,28 @@ import { CurrencyService } from '../../services/currency.service';
 export class TripDetailsComponent {
 
   trip: Trip = defaultTrip;
+  tripReservations: Reservation[] = [];
   selectedCurrency: string = 'PLN';
   selectedRating: number = 0;
   displayedRating: number = 0;
+  tripReviews: Review[] = [];
+  private reviewForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private tripsService: TripsService,
-    private currencyService: CurrencyService
-  ){}
+    private currencyService: CurrencyService,
+    private reviewsService: ReviewsService,
+    private reservationService: ReservationService,
+    private fb: FormBuilder
+  ){
+    this.reviewForm = this.fb.group({
+      nick: ['', Validators.required],
+      review: ['', [Validators.required, this.validateReview]],
+      date: ['', Validators.required],
+    });
+  }
 
   ngOnInit() {
     const tripId = this.route.snapshot.paramMap.get('id');
@@ -38,11 +55,18 @@ export class TripDetailsComponent {
       } else {
         this.displayedRating = this.selectedRating;
       }
-      
     });
 
     this.currencyService.getSelectedCurrency().subscribe((currency: string) => {
       this.selectedCurrency = currency;
+    });
+
+    this.reviewsService.getReviews().subscribe((reviews: Review[]) => {
+      this.tripReviews = reviews.filter(review => review.tripId === tripId);
+    });
+
+    this.reservationService.getReservations().subscribe((reservations) => {
+      this.tripReservations = reservations.filter(reservation => reservation.tripId === tripId);
     });
   }
 
@@ -57,6 +81,39 @@ export class TripDetailsComponent {
       numberOfRates: this.trip.numberOfRates,
     });
   }
+
+
+  addReview() {
+    if (this.reviewForm.valid){
+      const newReview: Review = this.reviewForm.value;
+      newReview.tripId = this.trip.id;
+      const purchaseDate = this.tripReservations[0].dateOfReservation;
+      newReview.date = purchaseDate;
+      this.reviewsService.addReview(newReview).then(() => {
+        this.reviewForm.reset();
+      }).catch((error) => {
+        console.log('Błąd podczas dodawania recenzji do bazy danych:', error);
+      });
+    } else {
+      alert('Wypełnij wszystkie pola!')
+    }
+  }
+
+  validateReview(control: AbstractControl): ValidationErrors | null {
+    const reviewText = control.value as string;
+
+    if (!reviewText) {
+      return { required: true };
+    }
+
+    if (reviewText.length < 50 || reviewText.length > 500) {
+      return { invalidLength: true };
+    }
+
+    return null;
+  }
+
+
 
 
 }

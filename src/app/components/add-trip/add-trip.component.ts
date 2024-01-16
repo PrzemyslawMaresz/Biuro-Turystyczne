@@ -13,7 +13,7 @@ import { Timestamp } from '@angular/fire/firestore';
 })
 export class AddTripComponent {
 
-  tripForm: FormGroup;
+  private tripForm: FormGroup;
 
   constructor(
     private router: Router, 
