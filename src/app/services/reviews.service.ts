@@ -48,4 +48,5 @@ export class ReviewsService {
   async deleteReview(id: string): Promise<any> {
     return this.reviewsCollection.doc(id).delete();
   }
+
 }

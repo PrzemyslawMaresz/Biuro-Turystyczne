@@ -64,7 +64,7 @@
                 <div class="card-body">
                     <h4 class="card-title mb-3">{{ trip.name | uppercase}}</h4>
                     <p class="card-text"><strong>{{ trip.country | uppercase }}</strong></p>
-                    <p class="card-text">{{ trip.description }}</p>
+                    <p class="card-text">{{ trip.description.slice(0,200)}} ...</p>
                     <p class="card-text"><strong>Od:</strong> {{ trip.startDate}}</p>
                     <p class="card-text"><strong>Do:</strong> {{ trip.endDate}}</p>
                     <p class="card-text"><strong>Cena:</strong> {{ trip.price | currencyConventer:selectedCurrency}}

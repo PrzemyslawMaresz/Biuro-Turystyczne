@@ -11,6 +11,10 @@ export interface TripData {
     reservedSpots: number;
     rate: number;
     numberOfRates: number;
+    firstCaruselImageLink: string;
+    secondCaruselImageLink: string;
+    thirdCaruselImageLink: string;
+    mapLink: string;
 }
 
 export interface Trip extends TripData {
@@ -34,5 +38,9 @@ export const defaultTrip: Trip = {
     numberOfRates: 0,
     availableSpots: 0,
     selectedSpots: 0,
-    isChecked: false
+    isChecked: false,
+    firstCaruselImageLink: '',
+    secondCaruselImageLink: '',
+    thirdCaruselImageLink: '',
+    mapLink: ''
 }

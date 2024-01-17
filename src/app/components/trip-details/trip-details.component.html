@@ -8,58 +8,173 @@
                 </a>
             </div>
             <div class="card m-5">
-
-                <img [src]="trip.imageLink" class="card-img-top img-fluid " alt="{{ trip.name }}"
-                    style="object-fit: cover; max-height: 500px;">
-
                 <div class="card-body">
 
-                    <h2 class="text-center mb-4">{{ trip.name | uppercase }} - {{ trip.country | uppercase }}</h2>
+                    <div class="d-flex justify-content-start align-items-center mt-1">
+                        <div class="d-flex align-items-center mx-2">
+                            <span class="" style="color: gold"
+                                [ngClass]="{'bi-star-fill': trip.rate >= 1, 'bi-star-half': trip.rate < 1, 'bi-star': trip.rate < 0.5}"></span>
+                            <span class="" style="color: gold"
+                                [ngClass]="{'bi-star-fill': trip.rate >= 2, 'bi-star-half': trip.rate < 2, 'bi-star': trip.rate < 1.5}"></span>
+                            <span class="" style="color: gold"
+                                [ngClass]="{'bi-star-fill': trip.rate >= 3, 'bi-star-half': trip.rate < 3, 'bi-star': trip.rate < 2.5}"></span>
+                            <span class="" style="color: gold"
+                                [ngClass]="{'bi-star-fill': trip.rate >= 4, 'bi-star-half': trip.rate < 4, 'bi-star': trip.rate < 3.5}"></span>
+                            <span class="" style="color: gold"
+                                [ngClass]="{'bi-star-fill': trip.rate >= 5, 'bi-star-half': trip.rate < 5, 'bi-star': trip.rate < 4.5}"></span>
 
-                    <div class="mt-4">
-                        <h6 class="">Oceń wycieczkę: </h6>
-                        <div class="d-flex align-items-center">
-                            <div class="me-2">
-                                <span class="" style="color: gold"
-                                    [ngClass]="{'bi-star-fill': trip.rate >= 1, 'bi-star-half': trip.rate < 1, 'bi-star': trip.rate < 0.5}"
-                                    (click)="rateTrip(1)"></span>
-                                <span class="" style="color: gold"
-                                    [ngClass]="{'bi-star-fill': trip.rate >= 2, 'bi-star-half': trip.rate < 2, 'bi-star': trip.rate < 1.5}"
-                                    (click)="rateTrip(2)"></span>
-                                <span class="" style="color: gold"
-                                    [ngClass]="{'bi-star-fill': trip.rate >= 3, 'bi-star-half': trip.rate < 3, 'bi-star': trip.rate < 2.5}"
-                                    (click)="rateTrip(3)"></span>
-                                <span class="" style="color: gold"
-                                    [ngClass]="{'bi-star-fill': trip.rate >= 4, 'bi-star-half': trip.rate < 4, 'bi-star': trip.rate < 3.5}"
-                                    (click)="rateTrip(4)"></span>
-                                <span class="" style="color: gold"
-                                    [ngClass]="{'bi-star-fill': trip.rate >= 5, 'bi-star-half': trip.rate < 5, 'bi-star': trip.rate < 4.5}"
-                                    (click)="rateTrip(5)"></span>
-
-                                <span class="mx-2">
-                                    {{ trip.rate.toFixed(1) }} / 5
-                                </span>
-                            </div>
-                            <div class="d-flex align-items-center mx-2">
-                                <i class="bi bi-person-fill me-2" style="color: black"></i>
-                                <span>{{ trip.numberOfRates }}</span>
-                            </div>
-
-
+                            <span class="ms-2">
+                                {{trip.rate.toFixed(1) }} / 5
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center mx-2">
+                            <i class="bi bi-person-fill me-2" style="color: black"></i>
+                            <span>{{ trip.numberOfRates }}</span>
                         </div>
                     </div>
 
+                    <h2 class="text-center my-4">{{ trip.name | uppercase }}</h2>
+                    <h4 class="text-center mb4">{{ trip.country | uppercase }}</h4>
+
+                    <div id="tripCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img [src]="trip.firstCaruselImageLink" class="d-block w-100 rounded object-fit-cover" alt="Image 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img [src]="trip.secondCaruselImageLink" class="d-block w-100 rounded object-fit-cover" alt="Image 2">
+                            </div>
+                            <div class="carousel-item">
+                                <img [src]="trip.thirdCaruselImageLink" class="d-block w-100 rounded object-fit-cover" alt="Image 3">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#tripCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#tripCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    
                     <div class="mt-4">
                         <h4>Opis:</h4>
                         <p>{{ trip.description }}</p>
                     </div>
 
-                    <div class="mt-4">
-                        <h4>Cena:</h4>
-                        <p>{{ trip.price | currencyConventer:selectedCurrency }}</p>
+                    
+
+                    <p class="card-text"><strong>Od:</strong> {{ trip.startDate}}</p>
+                    <p class="card-text"><strong>Do:</strong> {{ trip.endDate}}</p>
+                    <p class="card-text"><strong>Cena:</strong> {{ trip.price | currencyConventer:selectedCurrency}}
+                    </p>
+                    <p class="card-text">
+                        <strong>Wolne miejsca: </strong>
+                        <span class="rounded-3 bg-dark-subtle  px-3 py-1 ms-2 me-2">
+                            {{trip.availableSpots}}/{{trip.maxSpots}}</span>
+                    </p>
+
+
+                    <div class="d-flex justify-content-center align-items-center mt-5">
+                        <span *ngIf="trip.availableSpots > 0; else brakMiejsc">
+                            <strong>Wybierz ilość biletów:</strong>
+                        </span>
+                        <ng-template #brakMiejsc>
+                            <strong class="text-danger">Brak wolnych miejsc</strong>
+                        </ng-template>
                     </div>
 
+                    <div class="d-flex justify-content-center align-items-center my-5">
+                        <button (click)="cancelReservation(trip)" class="btn btn-primary ml-2"
+                            [ngStyle]="{'visibility': trip.selectedSpots > 0 ? 'visible' : 'hidden'}">
+                            -
+                        </button>
+                        <span class="rounded-3 px-3 py-1 ms-2 me-2 bg-dark-subtle">
+                            {{ trip.selectedSpots }}
+                        </span>
+                        <button (click)="reserveTrip(trip)" class="btn btn-primary ml-2"
+                            [ngStyle]="{'visibility': trip.availableSpots > 0 ? 'visible' : 'hidden'}">
+                            +
+                        </button>
+                    </div>
 
+                </div>
+            </div>
+
+            <div class="card m-5">
+                <div class="card-body">
+                    <h3 class="mb-4 text-center">Lokalizacja</h3>
+                    <div class="d-flex justify-content-center mt-4 overflow-hidden">
+                        <div class="map-container" [innerHTML]="mapHtml()" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card m-5">
+                <div class="card-body">
+
+                    <h6 class="text-center"><strong>Oceń wycieczkę</strong></h6>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="me-2">
+                            <span class="bi" style="color: gold; font-size: 1.5em;"
+                                [ngClass]="{'bi-star-fill': selectedRating >= 1, 'bi-star': selectedRating < 1}"
+                                (click)="rateTrip(1)"></span>
+                            <span class="bi" style="color: gold; font-size: 1.5em;"
+                                [ngClass]="{'bi-star-fill': selectedRating >= 2, 'bi-star': selectedRating < 2}"
+                                (click)="rateTrip(2)"></span>
+                            <span class="bi" style="color: gold; font-size: 1.5em;"
+                                [ngClass]="{'bi-star-fill': selectedRating >= 3, 'bi-star': selectedRating < 3}"
+                                (click)="rateTrip(3)"></span>
+                            <span class="bi" style="color: gold; font-size: 1.5em;"
+                                [ngClass]="{'bi-star-fill': selectedRating >= 4, 'bi-star': selectedRating < 4}"
+                                (click)="rateTrip(4)"></span>
+                            <span class="bi" style="color: gold; font-size: 1.5em;"
+                                [ngClass]="{'bi-star-fill': selectedRating >= 5, 'bi-star': selectedRating < 5}"
+                                (click)="rateTrip(5)"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card m-5">
+                <div class="card-body">
+
+
+
+
+
+                    <h3 class="mb-4">Dodaj recenzję</h3>
+                    <form [formGroup]="reviewForm" (ngSubmit)="addReview()">
+                        <div class="mb-3">
+                            <label for="nick" class="form-label">Nick:</label>
+                            <input type="text" class="form-control" id="nick" formControlName="nick">
+                        </div>
+                        <div class="mb-3">
+                            <label for="review" class="form-label">Recenzja:</label>
+                            <textarea class="form-control" id="review" formControlName="review"></textarea>
+                            <div *ngIf="reviewForm.get('review')?.hasError('required')" class="text-danger">
+                                Pole nie może być puste!
+                            </div>
+                            <div *ngIf="reviewForm.get('review')?.hasError('invalidLength')" class="text-danger">
+                                Pole musi zawierać od 50 do 500 znaków!
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card m-5">
+                <div class="card-body">
+                    <h3 class="mb-4">Recenzje</h3>
+                    <div *ngFor="let review of tripReviews" class="mb-3">
+                        <h5>{{ review.nick }}</h5>
+                        <p>{{ review.review }}</p>
+                        <p class="text-muted">Data zakupu: {{ review.date}}</p>
+                    </div>
                 </div>
             </div>
 

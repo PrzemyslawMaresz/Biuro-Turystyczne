@@ -8,6 +8,7 @@ import { ReviewsService } from '../../services/reviews.service';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ReservationService } from '../../services/reservation.service';
 import { Reservation } from '../../models/reservation';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-trip-details',
@@ -20,9 +21,8 @@ export class TripDetailsComponent {
   tripReservations: Reservation[] = [];
   selectedCurrency: string = 'PLN';
   selectedRating: number = 0;
-  displayedRating: number = 0;
   tripReviews: Review[] = [];
-  private reviewForm: FormGroup;
+  reviewForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,12 +31,12 @@ export class TripDetailsComponent {
     private currencyService: CurrencyService,
     private reviewsService: ReviewsService,
     private reservationService: ReservationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private sanitizer: DomSanitizer
   ){
     this.reviewForm = this.fb.group({
       nick: ['', Validators.required],
-      review: ['', [Validators.required, this.validateReview]],
-      date: ['', Validators.required],
+      review: ['', [Validators.required, this.validateReview]]
     });
   }
 
@@ -47,13 +47,7 @@ export class TripDetailsComponent {
       if (foundTrip) {
         this.trip = foundTrip;
       } else {
-        alert(`Wycieczka o ID ${tripId} nie została znaleziona.`)
         this.router.navigate(['/trips']);
-      }
-      if (this.selectedRating === 0){
-        this.displayedRating = this.trip.rate;
-      } else {
-        this.displayedRating = this.selectedRating;
       }
     });
 
@@ -68,11 +62,12 @@ export class TripDetailsComponent {
     this.reservationService.getReservations().subscribe((reservations) => {
       this.tripReservations = reservations.filter(reservation => reservation.tripId === tripId);
     });
+
+    
   }
 
   rateTrip(rating: number) {
     this.selectedRating = rating;
-    this.displayedRating = rating;
     const newRate = (this.trip.rate * this.trip.numberOfRates + rating) / (this.trip.numberOfRates + 1);
     this.trip.rate = Math.round(newRate * 100) / 100;
     this.trip.numberOfRates++;
@@ -111,6 +106,18 @@ export class TripDetailsComponent {
     }
 
     return null;
+  }
+
+  reserveTrip(trip: Trip) {
+    this.tripsService.reserveTrip(trip);
+  }
+
+  cancelReservation(trip: Trip) {
+    this.tripsService.cancelReservation(trip);
+  }
+
+  mapHtml() {
+    return this.sanitizer.bypassSecurityTrustHtml(this.trip.mapLink);
   }
 
 

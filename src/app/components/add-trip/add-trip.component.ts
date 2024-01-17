@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Trip } from '../../models/trip';
 import { TripsService } from '../../services/trips.service';
-import { Timestamp } from '@angular/fire/firestore';
 
 
 @Component({
@@ -13,27 +12,40 @@ import { Timestamp } from '@angular/fire/firestore';
 })
 export class AddTripComponent {
 
-  private tripForm: FormGroup;
+  tripForm: FormGroup;
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private fb: FormBuilder,
     private TripsService: TripsService
-    ) {
+  ) {
     this.tripForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
-      country: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+      name: ['', [Validators.required, Validators.pattern('[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*')]],
+      country: ['', [Validators.required, Validators.pattern('[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*')]],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       price: ['', [Validators.required, Validators.pattern('^[1-9][0-9]*')]],
       maxSpots: ['', [Validators.required, Validators.pattern('^[1-9][0-9]*')]],
       description: ['', Validators.required],
       imageLink: ['', Validators.required],
+      firstCaruselImageLink: [''],
+      secondCaruselImageLink: [''],
+      thirdCaruselImageLink: [''],
+      mapLink: [''],
     });
   }
 
   addTrip() {
-    if (this.tripForm.valid){
+    for (const controlName in this.tripForm.controls) {
+      const control = this.tripForm.get(controlName);
+  
+      if (control) {
+        console.log(`${controlName} status:`, control.status);
+      } else {
+        console.error(`Control with name ${controlName} not found.`);
+      }
+    }
+    if (this.tripForm.valid) {
       const newTrip: Trip = this.tripForm.value;
 
       newTrip.reservedSpots = 0;
@@ -46,7 +58,8 @@ export class AddTripComponent {
         console.log('Błąd podczas dodawania wycieczki do bazy danych:', error);
       });
     } else {
-      alert('Wypełnij wszystkie pola!')
+      console.log('Invalid form fields:', this.tripForm.errors);
+      alert('Formularz jest wypełniony niepoprawnie!')
     }
   }
 
