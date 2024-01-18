@@ -39,31 +39,36 @@
                     <div id="tripCarousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img [src]="trip.firstCaruselImageLink" class="d-block w-100 rounded object-fit-cover" alt="Image 1">
+                                <img [src]="trip.firstCaruselImageLink" class="d-block w-100 rounded object-fit-cover"
+                                    alt="Image 1">
                             </div>
                             <div class="carousel-item">
-                                <img [src]="trip.secondCaruselImageLink" class="d-block w-100 rounded object-fit-cover" alt="Image 2">
+                                <img [src]="trip.secondCaruselImageLink" class="d-block w-100 rounded object-fit-cover"
+                                    alt="Image 2">
                             </div>
                             <div class="carousel-item">
-                                <img [src]="trip.thirdCaruselImageLink" class="d-block w-100 rounded object-fit-cover" alt="Image 3">
+                                <img [src]="trip.thirdCaruselImageLink" class="d-block w-100 rounded object-fit-cover"
+                                    alt="Image 3">
                             </div>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#tripCarousel" data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#tripCarousel"
+                            data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#tripCarousel" data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#tripCarousel"
+                            data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
-                    
+
                     <div class="mt-4">
                         <h4>Opis:</h4>
                         <p>{{ trip.description }}</p>
                     </div>
 
-                    
+
 
                     <p class="card-text"><strong>Od:</strong> {{ trip.startDate}}</p>
                     <p class="card-text"><strong>Do:</strong> {{ trip.endDate}}</p>
@@ -78,14 +83,14 @@
 
                     <div class="d-flex justify-content-center align-items-center mt-5">
                         <span *ngIf="trip.availableSpots > 0; else brakMiejsc">
-                            <strong>Wybierz ilość biletów:</strong>
+                            <strong *ngIf="isCustomer()">Wybierz ilość biletów:</strong>
                         </span>
                         <ng-template #brakMiejsc>
                             <strong class="text-danger">Brak wolnych miejsc</strong>
                         </ng-template>
                     </div>
 
-                    <div class="d-flex justify-content-center align-items-center my-5">
+                    <div class="d-flex justify-content-center align-items-center my-5" *ngIf="isCustomer()">
                         <button (click)="cancelReservation(trip)" class="btn btn-primary ml-2"
                             [ngStyle]="{'visibility': trip.selectedSpots > 0 ? 'visible' : 'hidden'}">
                             -
@@ -106,16 +111,17 @@
                 <div class="card-body">
                     <h3 class="mb-4 text-center">Lokalizacja</h3>
                     <div class="d-flex justify-content-center mt-4 overflow-hidden">
-                        <div class="map-container" [innerHTML]="mapHtml()" >
+                        <div class="map-container" [innerHTML]="mapHtml()">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card m-5">
+            <div class="card m-5" *ngIf="isCustomer() && isTripReserved() && !isUserBanned()">
                 <div class="card-body">
 
-                    <h6 class="text-center"><strong>Oceń wycieczkę</strong></h6>
+                    <h6 class="text-center" *ngIf="!isTripRated()"><strong>Oceń wycieczkę</strong></h6>
+                    <h6 class="text-center" *ngIf="isTripRated()"><strong>Twoja ocena</strong></h6>
                     <div class="d-flex align-items-center justify-content-center">
                         <div class="me-2">
                             <span class="bi" style="color: gold; font-size: 1.5em;"
@@ -139,12 +145,8 @@
                 </div>
             </div>
 
-            <div class="card m-5">
+            <div class="card m-5" *ngIf="isCustomer() && isTripReserved() && !isUserBanned()">
                 <div class="card-body">
-
-
-
-
 
                     <h3 class="mb-4">Dodaj recenzję</h3>
                     <form [formGroup]="reviewForm" (ngSubmit)="addReview()">
@@ -170,10 +172,16 @@
             <div class="card m-5">
                 <div class="card-body">
                     <h3 class="mb-4">Recenzje</h3>
-                    <div *ngFor="let review of tripReviews" class="mb-3">
-                        <h5>{{ review.nick }}</h5>
-                        <p>{{ review.review }}</p>
-                        <p class="text-muted">Data zakupu: {{ review.date}}</p>
+                    <div *ngFor="let review of tripReviews" class="card mb-3">
+                        <div class="card-body">
+                            <button (click)="deleteReview(review)"
+                                class="btn btn-danger position-absolute top-0 end-0 m-2" *ngIf="isAdmin()">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <h5>{{ review.nick }}</h5>
+                            <p>{{ review.review }}</p>
+                            <p class="text-muted">Data: {{ review.date}}</p>
+                        </div>
                     </div>
                 </div>
             </div>

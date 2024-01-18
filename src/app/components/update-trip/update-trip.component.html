@@ -1,0 +1,81 @@
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center m-3">Edytuj wycieczkę</h2>
+
+            <form [formGroup]="updateTripForm" (ngSubmit)="updateTrip()">
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nazwa</label>
+                    <input type="text" class="form-control" id="name" formControlName="name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="country" class="form-label">Kraj</label>
+                    <input type="text" class="form-control" id="country" formControlName="country" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="startDate" class="form-label">Data rozpoczęcia</label>
+                    <input type="date" class="form-control" id="startDate" formControlName="startDate" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="endDate" class="form-label">Data zakończenia</label>
+                    <input type="date" class="form-control" id="endDate" formControlName="endDate" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Cena</label>
+                    <input type="number" class="form-control" id="price" formControlName="price" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="maxSpots" class="form-label">Maksymalna liczba miejsc</label>
+                    <input type="number" class="form-control" id="maxSpots" formControlName="maxSpots" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Opis</label>
+                    <textarea class="form-control" id="description" formControlName="description" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="imageLink" class="form-label">Link do zdjęcia</label>
+                    <input type="text" class="form-control" id="imageLink" formControlName="imageLink" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="firstCaruselImageLink" class="form-label">Link do pierwszego zdjęcia w karuzeli</label>
+                    <input type="text" class="form-control" id="firstCaruselImageLink"
+                        formControlName="firstCaruselImageLink">
+                </div>
+
+                <div class="mb-3">
+                    <label for="secondCaruselImageLink" class="form-label">Link do drugiego zdjęcia w karuzeli</label>
+                    <input type="text" class="form-control" id="secondCaruselImageLink"
+                        formControlName="secondCaruselImageLink">
+                </div>
+
+                <div class="mb-3">
+                    <label for="thirdCaruselImageLink" class="form-label">Link do trzeciego zdjęcia w karuzeli</label>
+                    <input type="text" class="form-control" id="thirdCaruselImageLink"
+                        formControlName="thirdCaruselImageLink">
+                </div>
+
+                <div class="mb-3">
+                    <label for="mapLink" class="form-label">Link do mapy</label>
+                    <input type="text" class="form-control" id="mapLink" formControlName="mapLink">
+                </div>
+
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Zatwierdź zmiany</button>
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+

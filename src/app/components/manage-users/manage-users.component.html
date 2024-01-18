@@ -1,0 +1,33 @@
+<div class="container mt-4">
+    <h2>Manage Users</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nazwa</th>
+          <th>Rola</th>
+          <th>Banowanie</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filterAdmins()">
+          <td>{{ user.id }}</td>
+          <td>{{ user.username }}</td>
+          <td>
+            <select class="form-select" [(ngModel)]="user.role" (change)="updateUser(user)">
+              <option value="client" [selected]="user.role === 'client'">Klient</option>
+              <option value="manager" [selected]="user.role === 'manager'">Menadżer</option>
+              <option value="admin" [selected]="user.role === 'admin'">Admin</option>
+            </select>
+          </td>
+          <td>
+            <div class="form-check mt-1 ms-4">
+              <input class="form-check-input" type="checkbox" id="isBannedCheckbox{{ user.id }}" [(ngModel)]="user.isBanned" (change)="updateUser(user)">
+              <label class="form-check-label" for="isBannedCheckbox{{ user.id }}"></label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="card mx-auto mt-5" style="max-width: 400px; border-radius: 15px;">
+        <div class="card-body p-5">
+            <h2 class="card-title text-center mb-3">Rejestracja</h2>
+            <form [formGroup]="registrationForm">
+                <div class="form-group">
+                    <label for="username">Nazwa użytkownika:</label>
+                    <input type="text" class="form-control" formControlName="username" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" formControlName="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Hasło:</label>
+                    <input type="password" class="form-control" formControlName="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Powtórz hasło:</label>
+                    <input type="password" class="form-control" formControlName="confirmPassword" id="confirmPassword" required>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button type="button" class="btn btn-primary" (click)="register()">Zarejestruj się</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</div>

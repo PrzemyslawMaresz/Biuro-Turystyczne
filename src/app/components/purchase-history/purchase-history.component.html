@@ -11,22 +11,36 @@
           <option value="finished">zakończona</option>
         </select>
       </div>
-      <div *ngFor="let reservation of filteredReservationsList()" class="card mb-5">
+      <div *ngFor="let reservation of returnUserReservations()" class="card mb-5">
         <div class="card-header">
           <h5 class="card-title">{{ reservation.tripName }}</h5>
-          <p class="card-text">Status: {{ printStatus(reservation.status) }}</p>
+          <p class="card-text">
+            Status: {{ printStatus(reservation.status) }}
+          </p>
+
+
         </div>
         <div class="card-body">
-          <p class="card-text">Data zakupu: {{ reservation.dateOfReservation }}</p>
-          <p class="card-text">Liczba biletów: {{ reservation.numberOfTickets }}</p>
-          <p class="card-text">Data rozpoczęcia: {{ reservation.startDate }}</p>
-          <p class="card-text">Data zakończenia: {{ reservation.endDate }}</p>
-          <p class="card-text">Lokalizacja: {{ reservation.country }}</p>
-          <p class="card-text">Cena: {{ reservation.totalPrice | currencyConventer:selectedCurrency}} </p>
+          <p class="card-text">
+            Data zakupu: {{ reservation.dateOfReservation }}
+          </p>
+          <p class="card-text">
+            Liczba biletów: {{ reservation.numberOfTickets }}
+          </p>
+          <p class="card-text" [ngStyle]="{'color': isUpcomingTrip(reservation) ? 'red' : 'inherit'}">
+            Data rozpoczęcia: {{ reservation.startDate }}
+          </p>
+          <p class="card-text">
+            Data zakończenia: {{ reservation.endDate }}
+          </p>
+          <p class="card-text">
+            Lokalizacja: {{ reservation.country }}
+          </p>
+          <p class="card-text">
+            Cena: {{ reservation.totalPrice | currencyConventer:selectedCurrency}}
+          </p>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-  

@@ -9,6 +9,9 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +25,12 @@ import { CartComponent } from './components/cart/cart.component';
 import { PurchaseHistoryComponent } from './components/purchase-history/purchase-history.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { TripDetailsComponent } from './components/trip-details/trip-details.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { LoginComponent } from './components/login/login.component';
+import { RegistrationComponent } from './components/registration/registration.component';
+import { ManageUsersComponent } from './components/manage-users/manage-users.component';
+import { UpdateTripComponent } from './components/update-trip/update-trip.component';
+
 
 
 @NgModule({
@@ -37,6 +46,10 @@ import { TripDetailsComponent } from './components/trip-details/trip-details.com
     PurchaseHistoryComponent,
     FilterComponent,
     TripDetailsComponent,
+    LoginComponent,
+    RegistrationComponent,
+    ManageUsersComponent,
+    UpdateTripComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +62,9 @@ import { TripDetailsComponent } from './components/trip-details/trip-details.com
     AngularFireStorageModule,
     AngularFirestoreModule,
     AngularFireDatabaseModule,
+    MatPaginatorModule,
+    BrowserAnimationsModule,
+    NoopAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

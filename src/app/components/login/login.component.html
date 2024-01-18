@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="card mx-auto mt-5" style="max-width: 400px; border-radius: 15px;">
+      <div class="card-body p-5">
+        <h2 class="card-title text-center mb-3">Logowanie</h2>
+        <form [formGroup]="loginForm">
+          <div class="form-group" [ngClass]="{'has-danger': wrongLoginData}">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" formControlName="email" id="email" required (focus)="resetErrorState()">
+          </div>
+          <div class="form-group" [ngClass]="{'has-danger': wrongLoginData}">
+            <label for="password">Hasło:</label>
+            <input type="password" class="form-control" formControlName="password" id="password" required (focus)="resetErrorState()">
+          </div>
+          <div class="d-flex justify-content-center mt-4">
+            <button type="button" class="btn btn-primary" (click)="login()">Zaloguj się</button>
+          </div>
+        </form>
+        <div *ngIf="wrongLoginData" class="text-danger mt-4 text-center">Niepoprawne dane logowania.</div>
+      </div>
+    </div>
+  </div>
+  

@@ -2,6 +2,8 @@ import { CurrencyService } from './../../services/currency.service';
 import { ReservationService } from './../../services/reservation.service';
 import { Component } from '@angular/core';
 import { Reservation } from '../../models/reservation';
+import { UsersService } from '../../services/users.service';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-purchase-history',
@@ -13,10 +15,12 @@ export class PurchaseHistoryComponent {
   reservations: Reservation[] = [];
   selectedCurrency: string = 'PLN';
   selectedStatus: string = "all";
+  user: User | null = null;
 
   constructor(
     private reservationService: ReservationService,
     private currencyService: CurrencyService,
+    public usersService: UsersService,
   ) {}
 
   ngOnInit() {
@@ -27,6 +31,11 @@ export class PurchaseHistoryComponent {
     this.currencyService.getSelectedCurrency().subscribe((currency: string) => {
       this.selectedCurrency = currency;
     });
+
+    this.usersService.getUser().subscribe((user: User | null) => {
+      this.user = user;
+    });
+    
   }
 
   printStatus(status: string | undefined): string {
@@ -53,4 +62,14 @@ export class PurchaseHistoryComponent {
   filteredReservationsList(): Reservation[] {
     return this.reservations.filter((reservation: Reservation) => this.isStatusMatch(reservation));
   }
+
+  returnUserReservations(): Reservation[] {
+    return this.filteredReservationsList().filter((reservation: Reservation) => reservation.userId === this.user?.id);
+  }
+
+  isUpcomingTrip(reservation: Reservation): boolean {
+    return reservation.isTripUpcoming? true : false;
+  }
+
+
 }

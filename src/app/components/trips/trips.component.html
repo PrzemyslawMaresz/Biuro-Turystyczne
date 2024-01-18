@@ -24,7 +24,7 @@
     </div>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 pt-5">
-        <div *ngFor="let trip of filteredTripsList()" class="col mb-4">
+        <div *ngFor="let trip of tripsToDisplay" class="col mb-4">
             <div class="card position-relative" [ngClass]="{
                 'low-spots': trip.availableSpots <= 3,
                 'cheapest': trip.price === lowestPrice,
@@ -54,9 +54,24 @@
                     </div>
                 </div>
 
-                <button (click)="deleteTrip(trip)" class="btn btn-danger position-absolute top-0 end-0 m-2">
-                    <i class="bi bi-trash"></i>
-                </button>
+                <div class="position-absolute top-0 end-0 m-2">
+
+                    <button class="btn btn-primary mx-2"
+                    *ngIf="isModerator()"
+                    [routerLink]="['/update-trip', trip.id]">
+                        <i class="bi bi-gear-fill"></i>
+                    </button>
+
+                    <button (click)="deleteTrip(trip)" class="btn btn-danger "
+                        *ngIf="isModerator()">
+                        <i class="bi bi-trash"></i>
+                    </button>
+
+                </div>
+
+
+
+
 
                 <img [src]="trip.imageLink" class="card-img-top rounded-circle mt-3" alt="{{ trip.name}}"
                     style="height: 150px; width: 150px; margin: 0 auto; cursor: pointer; "
@@ -78,14 +93,14 @@
 
                     <div class="d-flex justify-content-center align-items-center mt-5">
                         <span *ngIf="trip.availableSpots > 0; else brakMiejsc">
-                            <strong>Wybierz ilość biletów:</strong>
+                            <strong *ngIf="isClient()">Wybierz ilość biletów:</strong>
                         </span>
                         <ng-template #brakMiejsc>
                             <strong class="text-danger">Brak wolnych miejsc</strong>
                         </ng-template>
                     </div>
 
-                    <div class="d-flex justify-content-center align-items-center mt-3">
+                    <div class="d-flex justify-content-center align-items-center mt-3" *ngIf="isClient()">
                         <button (click)="cancelReservation(trip)" class="btn btn-primary ml-2"
                             [ngStyle]="{'visibility': trip.selectedSpots > 0 ? 'visible' : 'hidden'}">
                             -
@@ -103,4 +118,8 @@
             </div>
         </div>
     </div>
+
+    <mat-paginator [length]="trips.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)"
+    class="d-flex justify-content-center my-5">
+</mat-paginator>
 </div>

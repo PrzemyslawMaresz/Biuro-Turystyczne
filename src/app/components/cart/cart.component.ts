@@ -5,7 +5,8 @@ import { CurrencyService } from '../../services/currency.service';
 import { ReservationService } from '../../services/reservation.service';
 import { Reservation } from '../../models/reservation';
 import { Router } from '@angular/router';
-
+import { UsersService } from '../../services/users.service';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-cart',
@@ -14,11 +15,14 @@ import { Router } from '@angular/router';
 })
 export class CartComponent {
 
+  user: User | null = null;
+
   constructor(
     private tripsService: TripsService,
     private currencyService: CurrencyService,
     private reservationService: ReservationService,
     private router: Router,
+    private usersService: UsersService,
   ) { }
 
   trips: Trip[] = [];
@@ -33,6 +37,13 @@ export class CartComponent {
     this.currencyService.getSelectedCurrency().subscribe((currency: string) => {
       this.selectedCurrency = currency;
     });
+
+    this.usersService.getUser().subscribe((user: User | null) => {
+      if (user) {
+        this.user = user;
+      }
+    });
+    
   }
 
   reserveTrip(trip: Trip) {
@@ -81,17 +92,25 @@ export class CartComponent {
   }
 
   addReservation(trip: Trip){
-    const reservation: Reservation = {
-      tripId: trip.id,
-      tripName: trip.name,
-      numberOfTickets: trip.selectedSpots,
-      dateOfReservation: new Date().toISOString().slice(0, 10),
-      totalPrice: trip.price * trip.selectedSpots,
-      startDate: trip.startDate,
-      endDate: trip.endDate,
-      country: trip.country
-    };
-    this.reservationService.addReservation(reservation);
+    const userId = this.user?.id;
+    if (userId){
+      const reservation: Reservation = {
+        tripId: trip.id,
+        tripName: trip.name,
+        userId: userId,
+        userRate: 0,
+        numberOfTickets: trip.selectedSpots,
+        dateOfReservation: new Date().toISOString().slice(0, 10),
+        totalPrice: trip.price * trip.selectedSpots,
+        startDate: trip.startDate,
+        endDate: trip.endDate,
+        country: trip.country
+      };
+      this.reservationService.addReservation(reservation);
+    } else {
+      console.log("User not found");
+    }
+    
   }
 
 

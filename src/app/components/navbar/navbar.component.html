@@ -6,25 +6,47 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/home">Home</a>
       </li>
+      <li *ngIf="!isLogged()" class="nav-item">
+        <a class="nav-link" routerLink="/register">Rejestracja</a>
+      </li>
+      <li *ngIf="!isLogged()" class="nav-item">
+        <a class="nav-link" routerLink="/login">Logowanie</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/trips">Wycieczki</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/add-trip">Dodaj wycieczkę</a>
+        <a *ngIf="isClient()" class="nav-link" routerLink="/purchase-history">Historia zakupów</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/purchase-history">Historia zakupów</a>
+        <a *ngIf="isModerator()" class="nav-link" routerLink="/add-trip">Dodaj wycieczkę</a>
       </li>
+      <li class="nav-item">
+        <a *ngIf="isAdmin()" class="nav-link" routerLink="/manage-users">Zarządzaj urzytkownikami</a>
+      </li>
+      <li class="nav-item">
+        <a *ngIf="isLogged()" class="nav-link" (click)="logOut()" style="cursor: pointer;">Wyloguj</a>
+      </li>
+      <li class="nav-item">
+
+      </li>
+
     </ul>
   </div>
 
-  <div *ngIf="showUpcomingTripIcon()" class="">
-    <button class="btn btn-warning " routerLink="/purchase-history">
-      <i class="bi bi-exclamation-lg"></i>
-    </button>
+  <div class="d-flex justify-content-center align-self-center p-3">
+    {{userName()}}
   </div>
-  
-  <app-reservation-summary class="mx-lg-4"></app-reservation-summary>
+
+  <div *ngIf="showUpcomingTripIcon()" class="">
+    <div *ngIf="isClient()">
+      <button class="btn btn-warning " routerLink="/purchase-history">
+        <i class="bi bi-exclamation-lg"></i>
+      </button>
+    </div>
+  </div>
+
+  <app-reservation-summary *ngIf="isClient()" class="mx-lg-4"></app-reservation-summary>
 
   <select id="currencySelect" [(ngModel)]="selectedCurrency" (ngModelChange)="onCurrencyChange($event)"
     class="me-lg-5 me-sm-2">

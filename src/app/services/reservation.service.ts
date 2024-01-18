@@ -46,6 +46,11 @@ export class ReservationService {
     return this.reservationsCollection.add(reservationData)
   }
 
+  updateReservation(id: string | undefined, reservation: Reservation): Promise<any> {
+    const { status, ...reservationData } = reservation;
+    return this.reservationsCollection.doc(id).update(reservationData);
+  }
+
   updateStatus() {
     const currentDate = new Date();
     this.reservations.getValue().forEach(reservation => {

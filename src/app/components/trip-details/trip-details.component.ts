@@ -9,6 +9,8 @@ import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors }
 import { ReservationService } from '../../services/reservation.service';
 import { Reservation } from '../../models/reservation';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { UsersService } from '../../services/users.service';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-trip-details',
@@ -23,6 +25,7 @@ export class TripDetailsComponent {
   selectedRating: number = 0;
   tripReviews: Review[] = [];
   reviewForm: FormGroup;
+  user: User | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,7 +35,8 @@ export class TripDetailsComponent {
     private reviewsService: ReviewsService,
     private reservationService: ReservationService,
     private fb: FormBuilder,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private usersService: UsersService,
   ){
     this.reviewForm = this.fb.group({
       nick: ['', Validators.required],
@@ -60,13 +64,23 @@ export class TripDetailsComponent {
     });
 
     this.reservationService.getReservations().subscribe((reservations) => {
-      this.tripReservations = reservations.filter(reservation => reservation.tripId === tripId);
+      this.tripReservations = reservations
+      .filter(reservation => reservation.tripId === tripId && reservation.userId === this.user?.id);
+      this.selectedRating = this.returnUserRate();
+    });
+
+    this.usersService.getUser().subscribe((user: User | null) => {
+      this.user = user;
     });
 
     
   }
 
   rateTrip(rating: number) {
+    if (!this.isTripRated()){
+      const lastReservation = this.tripReservations[this.tripReservations.length - 1];
+    lastReservation.userRate = rating;
+    this.reservationService.updateReservation(lastReservation.id, lastReservation);
     this.selectedRating = rating;
     const newRate = (this.trip.rate * this.trip.numberOfRates + rating) / (this.trip.numberOfRates + 1);
     this.trip.rate = Math.round(newRate * 100) / 100;
@@ -75,6 +89,7 @@ export class TripDetailsComponent {
       rate: this.trip.rate,
       numberOfRates: this.trip.numberOfRates,
     });
+    }
   }
 
 
@@ -82,8 +97,13 @@ export class TripDetailsComponent {
     if (this.reviewForm.valid){
       const newReview: Review = this.reviewForm.value;
       newReview.tripId = this.trip.id;
-      const purchaseDate = this.tripReservations[0].dateOfReservation;
-      newReview.date = purchaseDate;
+      let date: string = "";
+      if (this.user?.role === 'client') {
+        date = this.tripReservations[this.tripReservations.length - 1].dateOfReservation;
+      } else {
+        date = new Date().toISOString().slice(0, 10);
+      }
+      newReview.date = date;
       this.reviewsService.addReview(newReview).then(() => {
         this.reviewForm.reset();
       }).catch((error) => {
@@ -116,11 +136,45 @@ export class TripDetailsComponent {
     this.tripsService.cancelReservation(trip);
   }
 
+  deleteReview(review: Review) {
+    this.reviewsService.deleteReview(review.id);
+  }
+
   mapHtml() {
     return this.sanitizer.bypassSecurityTrustHtml(this.trip.mapLink);
   }
 
+  isCustomer(): boolean {
+    return this.usersService.getRole() === 'client';
+  }
 
+  isModerator(): boolean {
+    return this.usersService.getRole() === 'manager' || this.usersService.getRole() === 'admin';
+  }
+
+  isManager(): boolean {
+    return this.usersService.getRole() === 'manager';
+  }
+
+  isAdmin(): boolean {
+    return this.usersService.getRole() === 'admin';
+  }
+
+  isTripReserved(): boolean {
+    return this.tripReservations.length > 0;
+  }
+
+  isTripRated(): boolean {
+    return this.tripReservations[this.tripReservations.length - 1].userRate > 0;
+  }
+
+  returnUserRate(): number {
+    return this.tripReservations[this.tripReservations.length - 1].userRate;
+  }
+
+  isUserBanned(): boolean {
+    return this.user?.isBanned || false;
+  }
 
 
 }
