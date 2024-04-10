@@ -16,26 +16,25 @@ export class LoginComponent {
     private fb: FormBuilder,
     private authenticationService: AuthenticationService,
     private usersService: UsersService,
-  ) {    
+  ) {
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
-  
+
 
   async login() {
     if (this.loginForm.valid) {
       const userData = this.loginForm.value;
       const email = userData.email;
       const password = userData.password;
-
-      const userCredential = await this.authenticationService.signIn(email, password);
-      if (!userCredential){
+      try {
+        const userCredential = await this.authenticationService.signIn(email, password);
+        this.usersService.loadUserData(userCredential.user?.uid);
+      } catch (error) {
         this.wrongLoginData = true;
         this.loginForm.reset();
-      } else {
-        this.usersService.loadUserData(userCredential.user?.uid);
       }
     } else {
       console.error('Incorrect login data format.');

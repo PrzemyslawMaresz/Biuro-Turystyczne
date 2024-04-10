@@ -16,7 +16,7 @@ export class AuthenticationService {
   constructor(
     private angularFireAuth: AngularFireAuth,
     private router: Router,
-    ) {
+  ) {
     this.userData = angularFireAuth.authState;
 
     this.router.events.subscribe((event) => {
@@ -29,19 +29,20 @@ export class AuthenticationService {
     });
   }
 
-  async signUp(email: string, password: string){
+  async signUp(email: string, password: string) {
 
     const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password)
     return userCredential;
-    
+
   }
 
-  async signIn(email: string, password: string){
+  async signIn(email: string, password: string) {
     const userCredential = await this.angularFireAuth.signInWithEmailAndPassword(email, password);
     if (userCredential.user) {
+      this.isLogged = true;
+      this.router.navigate(['/trips']);
     }
-    this.isLogged = true;
-    this.router.navigate(['/trips']);
+
     return userCredential;
   }
 
